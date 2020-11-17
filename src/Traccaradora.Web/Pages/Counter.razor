@@ -1,0 +1,23 @@
+﻿@page "/counter"
+
+<h1>@test</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<RadzenButton Text="gsdffs"></RadzenButton>
+@code {
+    [Inject]
+    private IServiceProvider ServiceProvider { get; set; }
+
+    private int currentCount = 0;
+    public string test { get; set; }
+
+    private async Task IncrementCount()
+    {
+        var Client = (Traccaradora.Web.Clients.Client)ServiceProvider.GetService(typeof(Traccaradora.Web.Clients.Client));
+        currentCount++;
+        var x = await Client.ServerGetAsync();
+        test = x.Result.Version;
+    }
+}
