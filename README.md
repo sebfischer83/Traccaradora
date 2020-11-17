@@ -1,2 +1,2 @@
 # Traccaradora
-A web application to manage and analyze your Traccar server
+A web application to manage and analyze your Traccar server.

@@ -1,12 +1,9 @@
 ﻿@inherits LayoutComponentBase
-<Layout>
-    <LayoutHeader>
-        Header
-    </LayoutHeader>
-    <LayoutContent>
-        @Body
-    </LayoutContent>
-    <LayoutFooter>
-        Footer
-    </LayoutFooter>
-</Layout>
+    <div class="container-fluid">
+        <div class="row">
+    @Body
+            <div class="col-sm-6 px-0 d-none d-sm-block">
+                <img src="img/login.webp" alt="login image" class="login-img">
+            </div>
+        </div>
+    </div>
