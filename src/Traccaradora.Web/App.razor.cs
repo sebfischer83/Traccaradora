@@ -44,6 +44,11 @@ namespace Traccaradora.Web
                 if (string.IsNullOrWhiteSpace(AuthState.Value.UserName))
                     NavigationManager.NavigateTo("/Login");
             }
+            else if (e.Location.Contains("/Login"))
+            {
+                if (!string.IsNullOrWhiteSpace(AuthState.Value.UserName))
+                    NavigationManager.NavigateTo("/Dashboard");
+            }
         }
     }
 }

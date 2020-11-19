@@ -14,6 +14,8 @@ using Traccaradora.Web.Clients;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using System.Globalization;
+using Traccaradora.Web.Services;
 
 namespace Traccaradora.Web
 {
@@ -25,7 +27,7 @@ namespace Traccaradora.Web
 
             var currentAssembly = typeof(Program).Assembly;
             builder.Services.AddFluxor(options => options.ScanAssemblies(currentAssembly).UseReduxDevTools());
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped(sp => new HttpClient());
             builder.Services
               .AddBlazorise(options =>
               {
@@ -36,14 +38,21 @@ namespace Traccaradora.Web
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddTraccarClient();
-
+            builder.Services.AddLocalization();
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddBlazoredSessionStorage();
+            // services app
+            builder.Services.AddScoped<LoginService>();
+
             var host = builder.Build();
 
             host.Services
               .UseBootstrapProviders()
               .UseFontAwesomeIcons();
+
+            //var culture = new CultureInfo("en-US");
+            //CultureInfo.DefaultThreadCurrentCulture = culture;
+            //CultureInfo.DefaultThreadCurrentUICulture = culture;
 
             await host.RunAsync();
         }
