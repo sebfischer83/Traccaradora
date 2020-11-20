@@ -30,7 +30,7 @@ using System.Text;
     OnPushBranchesIgnore = new[] { MasterBranch, ReleaseBranchPrefix + "/*" },
     OnPullRequestBranches = new[] { DevelopBranch },
     PublishArtifacts = false,
-    InvokedTargets = new[] { nameof(Compile) },
+    InvokedTargets = new[] { nameof(Publish) },
      ImportSecrets =
         new[]
         {
