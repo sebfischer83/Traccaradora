@@ -27,10 +27,17 @@ using System.Text;
 [GitHubActions(
     "continuous",
     GitHubActionsImage.WindowsLatest,
-    OnPushBranchesIgnore = new[] { MasterBranch, DevelopBranch, ReleaseBranchPrefix + "/*" },
+    OnPushBranchesIgnore = new[] { MasterBranch, ReleaseBranchPrefix + "/*" },
     OnPullRequestBranches = new[] { DevelopBranch },
     PublishArtifacts = false,
-    InvokedTargets = new[] { nameof(Compile) })]
+    InvokedTargets = new[] { nameof(Compile) },
+     ImportSecrets =
+        new[]
+        {
+            nameof(FTPSERVER),
+            nameof(FTPUSER),
+            nameof(FTPPWD)
+        })]
 class Build : NukeBuild
 {
     /// Support plugins are available for:
@@ -48,9 +55,14 @@ class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
+    [Parameter] readonly string FTPSERVER;
+    [Parameter] readonly string FTPUSER;
+    [Parameter] readonly string FTPPWD;
+
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion] readonly GitVersion GitVersion;
+    [CI] readonly GitHubActions GitHubActions;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath TestsDirectory => RootDirectory / "tests";
@@ -113,7 +125,7 @@ class Build : NukeBuild
         .OnlyWhenDynamic(() => GitRepository.IsOnDevelopBranch())
         .Executes(() =>
         {
-            using FtpClient client = new FtpClient("185.239.237.173", "sebastian", "us82qhFB");
+            using FtpClient client = new FtpClient(FTPSERVER, FTPUSER, FTPPWD);
             client.ValidateAnyCertificate = true;
             client.Port = 21;
             client.Connect();
@@ -129,7 +141,7 @@ class Build : NukeBuild
 
             client.UploadFile(ArtifactsDirectory / "web.config", "web.config");
             client.UploadDirectory(ArtifactsDirectory / "wwwroot", "wwwroot");
-            
+                        
         });
 
 
