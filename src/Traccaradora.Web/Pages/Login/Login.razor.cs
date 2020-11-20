@@ -13,7 +13,7 @@ using Traccaradora.Web.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Traccaradora.Web.Services;
 
-namespace Traccaradora.Web.Pages
+namespace Traccaradora.Web.Pages.Login
 {
     public partial class Login
     {

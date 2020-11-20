@@ -7,6 +7,11 @@
         height: 175px;
     }
 
+@media (max-width: 575px) {
+    .brand-wrapper .logo {
+        height: 100px;
+    }
+}
 
 .login-section-wrapper {
     display: flex;

@@ -13,6 +13,7 @@ namespace Traccaradora.Web.Store.Data
     public record DataState
     {
         public bool IsLoading { get; init; }
+        public bool IsInitialized { get; init; }
         public List<Clients.Device>? Devices { get; init; }
     }
 
@@ -34,7 +35,7 @@ namespace Traccaradora.Web.Store.Data
 
         protected override DataState GetInitialState()
         {
-            return new DataState() { IsLoading = false, Devices = null };
+            return new DataState() { IsLoading = false, Devices = null, IsInitialized = false };
         }
     }
 
@@ -42,11 +43,11 @@ namespace Traccaradora.Web.Store.Data
     {
         [ReducerMethod]
         public static DataState ReduceLoadAction(DataState state, FetchDataAction action) =>
-            new DataState() { Devices = null, IsLoading = true };
+            new DataState() { Devices = null, IsLoading = true, IsInitialized = false };
 
         [ReducerMethod]
         public static DataState ReduceLoadFinishAction(DataState state, FetchDataFinishAction action) =>
-            new DataState() { IsLoading = false, Devices = action.Devices };
+            new DataState() { IsLoading = false, Devices = action.Devices, IsInitialized = true };
     }
 
     public class AuthEffects

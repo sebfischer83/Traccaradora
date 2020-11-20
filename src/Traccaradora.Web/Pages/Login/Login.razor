@@ -9,11 +9,11 @@
         <Validations Mode="ValidationMode.Auto" ValidateOnLoad="false" Model="@UserData" @ref="@validations">
             <Validation Validator="@ValidationRule.IsEmail">
                 <Field>
-                    <FieldLabel>Email address</FieldLabel>
-                    <TextEdit Placeholder="Enter email" Role="TextRole.Email" @bind-Text="@UserData.UserName">
+                    <FieldLabel>@Loc["Email"]</FieldLabel>
+                    <TextEdit Placeholder=@Loc["EnterEmail"] Role="TextRole.Email" @bind-Text="@UserData.UserName">
                         <Feedback>
-                            <ValidationSuccess>Email is good</ValidationSuccess>
-                            <ValidationError>Enter valid email!</ValidationError>
+                            <ValidationSuccess>@Loc["EmailValid"]</ValidationSuccess>
+                            <ValidationError>@Loc["EmailInvalid"]</ValidationError>
                         </Feedback>
                     </TextEdit>
                 </Field>
@@ -29,7 +29,7 @@
                     </TextEdit>
                 </Field>
             </Validation>
-            <Validation Validator="@ValidationRule.IsNotEmpty">
+            <Validation Validator="@UrlValidator.IsValidUrl">
                 <Field>
                     <FieldLabel>Server</FieldLabel>
                     <TextEdit Placeholder="Server" Role="TextRole.Url" @bind-Text="@UserData.ServerUrl">

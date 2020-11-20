@@ -18,7 +18,9 @@ namespace Traccaradora.Web.Clients
             var byteArray = Encoding.ASCII.GetBytes($"{userName}:{password}");
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
             Client traccar = new Client(httpClient);
-            traccar.BaseUrl = serverUrl;
+            var baseUrl = serverUrl;
+
+            traccar.BaseUrl = MakeApiUrl(baseUrl);
 
             try
             {
@@ -36,6 +38,16 @@ namespace Traccaradora.Web.Clients
             }
 
         }
+
+        private static string MakeApiUrl(string url)
+        {
+            if (!url.EndsWith("api"))
+            {
+                return Flurl.Url.Combine(url, "/api");    
+            }
+            return url;
+        }
+
         public static IServiceCollection AddTraccarClient(this IServiceCollection services)
         {
             services.AddScoped<Client>(provider =>
@@ -46,7 +58,7 @@ namespace Traccaradora.Web.Clients
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 Client traccar = new Client(client);
-                traccar.BaseUrl = state.Value.ServerUrl;
+                traccar.BaseUrl = MakeApiUrl(state.Value.ServerUrl);
                 return traccar;
             });
 

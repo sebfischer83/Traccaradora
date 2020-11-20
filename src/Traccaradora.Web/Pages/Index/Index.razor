@@ -1,13 +1,64 @@
 ﻿@page "/"
 @page "/dashboard"
 
-    <Row>
+    <Row Style="height:72px;">
         <Column>
-            dsdgdf
+            <Bar Breakpoint="Breakpoint.Desktop" Background="Background.Secondary" ThemeContrast="ThemeContrast.Light">
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To="">
+                            <BarIcon IconName="IconName.Dashboard" />
+                            Blazorise Demo
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarToggler />
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarLink To="https://blazorise.com/">Home</BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To="https://blazorise.com/docs/">Documentation</BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>More</BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="https://blazorise.com/docs/quick-start/">
+                                        Quick-Start Guide
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="https://blazorise.com/docs/usage/">
+                                        Usage
+                                    </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                    </BarStart>
+                    <BarEnd>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle><Icon Name="IconName.Tint" /> Theme</BarDropdownToggle>
+                                <BarDropdownMenu Style="padding: 15px; min-width:550px;" RightAligned="true">
+                                     <Row>
+                                        <Column>
+                                            <Container Fluid="true">
+                                            </Container>
+                                        </Column>
+                                    </Row>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To="https://github.com/stsrki/blazorise">GitHub</BarLink>
+                        </BarItem>
+                    </BarEnd>
+                </BarMenu>
+            </Bar>
         </Column>
     </Row>
 
-    <Row>
+    <Row Style="height: calc(100% - 72px);">
         <Column>
             <Map></Map>
         </Column>

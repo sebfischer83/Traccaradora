@@ -20,6 +20,7 @@ on:
   push:
     branches-ignore:
       - master
+      - develop
       - release/*
   pull_request:
     branches:
@@ -29,20 +30,6 @@ jobs:
   windows-latest:
     name: windows-latest
     runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Run './build.cmd Compile'
-        run: ./build.cmd Compile
-  ubuntu-latest:
-    name: ubuntu-latest
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Run './build.cmd Compile'
-        run: ./build.cmd Compile
-  macOS-latest:
-    name: macOS-latest
-    runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1
       - name: Run './build.cmd Compile'

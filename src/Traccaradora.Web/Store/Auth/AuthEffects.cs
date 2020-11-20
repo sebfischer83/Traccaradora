@@ -21,7 +21,8 @@ namespace Traccaradora.Web.Store.Auth
         [EffectMethod]
         public async Task HandleLogin(LoginAction action, IDispatcher dispatcher)
         {
-            await _localStorage.SetItemAsync("UserData", JsonConvert.SerializeObject(new UserData() { UserName = action.UserName, Password = action.Password, ServerUrl = action.ServerUrl }));
+            var userData = new UserData() { UserName = action.UserName, Password = action.Password, ServerUrl = action.ServerUrl };
+            await _localStorage.SetItemAsync("UserData", userData);
             dispatcher.Dispatch(new FetchDataAction());
         }
 

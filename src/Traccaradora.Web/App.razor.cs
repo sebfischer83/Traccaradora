@@ -1,10 +1,12 @@
 ﻿using Blazored.LocalStorage;
 using Fluxor;
 using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Traccaradora.Web.Data;
 using Traccaradora.Web.Store.Auth;
 
 namespace Traccaradora.Web
@@ -32,7 +34,8 @@ namespace Traccaradora.Web
             }
             else
             {
-                Dispatcher.Dispatch(new LoginAction() { UserName = "sebfischer@gmx.net", Password = "us82qhFB", ServerUrl = "https://api.budgetari.net/api" });
+                var data = await LocalStorageService.GetItemAsync<UserData>("UserData");
+                Dispatcher.Dispatch(new LoginAction() { UserName = data.UserName, Password = data.Password, ServerUrl = data.ServerUrl });
             }
             NavigationManager.LocationChanged += NavigationManager_LocationChanged;
         }
