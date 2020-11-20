@@ -21,6 +21,7 @@ using FluentFTP;
 using System.IO;
 using Microsoft.Build.Tasks;
 using System.Text;
+using Nuke.Common.Tools.GitHub;
 
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
