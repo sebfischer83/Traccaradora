@@ -36,6 +36,7 @@ namespace Traccaradora.Web
             {
                 var data = await LocalStorageService.GetItemAsync<UserData>("UserData");
                 Dispatcher.Dispatch(new LoginAction() { UserName = data.UserName, Password = data.Password, ServerUrl = data.ServerUrl });
+                NavigationManager.NavigateTo("/Dashboard");
             }
             NavigationManager.LocationChanged += NavigationManager_LocationChanged;
         }

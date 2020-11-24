@@ -15,6 +15,7 @@ namespace Traccaradora.Web.Validation
                 e.Status = Blazorise.ValidationStatus.Error;
                 return;
             }
+
             e.Status = Flurl.Url.IsValid(url) ? Blazorise.ValidationStatus.Success : Blazorise.ValidationStatus.Error;
         }
     }

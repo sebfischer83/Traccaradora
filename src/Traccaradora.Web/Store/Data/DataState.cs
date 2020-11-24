@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Traccaradora.Web.Clients;
+using System.Net;
 
 namespace Traccaradora.Web.Store.Data
 {
@@ -14,7 +15,7 @@ namespace Traccaradora.Web.Store.Data
     {
         public bool IsLoading { get; init; }
         public bool IsInitialized { get; init; }
-        public List<Clients.Device>? Devices { get; init; }
+        public List<TraccarDevice>? Devices { get; init; }
     }
 
     public class FetchDataAction
@@ -23,7 +24,8 @@ namespace Traccaradora.Web.Store.Data
 
     public record FetchDataFinishAction
     {
-        public List<Clients.Device>? Devices { get; init; }
+        public List<TraccarDevice>? Devices { get; init; }
+        public Dictionary<int, Position>? LastPositions { get; init; }
     }
 
     public class DataFeature : Feature<DataState>
@@ -50,12 +52,12 @@ namespace Traccaradora.Web.Store.Data
             new DataState() { IsLoading = false, Devices = action.Devices, IsInitialized = true };
     }
 
-    public class AuthEffects
+    public class DataEffects
     {
         private readonly ILocalStorageService _localStorage;
         private readonly IServiceProvider _serviceProvider;
 
-        public AuthEffects(Blazored.LocalStorage.ILocalStorageService localStorage, IServiceProvider serviceProvider)
+        public DataEffects(Blazored.LocalStorage.ILocalStorageService localStorage, IServiceProvider serviceProvider)
         {
             _localStorage = localStorage;
             this._serviceProvider = serviceProvider;
@@ -70,10 +72,31 @@ namespace Traccaradora.Web.Store.Data
                 return;
             }
 
-            var devices = await client.DevicesGetAsync(null, null, null, null);
+            var devicesResult = await client.DevicesGetAsync(null, null, null, null);
+            // get last position for every device
+            List<TraccarDevice> devices = new();
+            foreach (var device in devicesResult.Result.ToList())
+            {
+                if (!device.Id.HasValue)
+                    continue;
+                var position = await client.PositionsAsync(device.Id, null, null, device.PositionId);
+                var pos = position.Result.FirstOrDefault();
+                if (position != null && position.StatusCode == (int) HttpStatusCode.OK && pos != null)
+                {
+                    TraccarDevice traccarDevice = new TraccarDevice()
+                    {
+                        Id = device.Id.Value,
+                        Name = device.Name,
+                        Latitude = pos.Latitude,
+                        Longitude = pos.Longitude,
+                        Altitude = pos.Altitude
+                    };
+                    devices.Add(traccarDevice);
+                }
+            }
 
             Console.WriteLine("HandleFetchData");
-            dispatcher.Dispatch(new FetchDataFinishAction() { Devices = devices.Result.ToList() });
+            dispatcher.Dispatch(new FetchDataFinishAction() { Devices = devices }) ;
         }
     }
 

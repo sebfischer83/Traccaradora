@@ -37,7 +37,17 @@ namespace Traccaradora.Web.Components.Map
                 {
                     var module = await Module;
                     await module.InvokeVoidAsync("initMap");
+                    await AddDevicesAsync();
                 });
+            }
+        }
+
+        private async Task AddDevicesAsync()
+        {
+            var module = await Module;
+            foreach (var device in State.Value.Devices)
+            {
+                await module.InvokeVoidAsync("addMarker", device.Latitude, device.Longitude, device.Name);
             }
         }
 

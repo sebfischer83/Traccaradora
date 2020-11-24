@@ -3,7 +3,7 @@
     <BarToggler />
     <BarBrand>
         <BarItem>
-            <BarLink To="">
+            <BarLink To="https://www.traccaradora.com" Target="Target.Blank">
                 <BarIcon IconName="customIcon" />
             </BarLink>
         </BarItem>
@@ -11,7 +11,7 @@
     <BarMenu>
         <BarStart>
             <BarItem>
-                <BarLink To="">
+                <BarLink To="/Dashboard">
                     <BarIcon IconName="IconName.Dashboard" />
                     Dashboard
                 </BarLink>
@@ -26,109 +26,32 @@
                         <BarDropdownItem To="/devices">
                             Geräte
                         </BarDropdownItem>
-                        <BarDropdownItem To="tests/modals">
-                            Modals
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/cards">
-                            Cards
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/progressbars">
-                            Progress bars
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/elements">
-                            General UI
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/typography">
-                            Typography
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/collapse">
-                            Collapse
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/tables">
-                            Tables
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/figures">
-                            Figures
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/tabs">
-                            Tabs
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/carousel">
-                            Carousel
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/layout">
-                            Layout
-                        </BarDropdownItem>
-                    </BarDropdownMenu>
-                </BarDropdown>
-            </BarItem>
-            <BarItem>
-                <BarDropdown>
-                    <BarDropdownToggle>
-                        <BarIcon IconName="IconName.Edit" />
-                        Forms
-                    </BarDropdownToggle>
-                    <BarDropdownMenu>
-                        <BarDropdownItem To="tests/forms">
-                            Forms
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/validations">
-                            Validations
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/misc-forms">
-                            Misc
-                        </BarDropdownItem>
-                        <BarDropdown>
-                            <BarDropdownToggle>
-                                Nested Forms
-                            </BarDropdownToggle>
-                            <BarDropdownMenu>
-                                <BarDropdownItem To="tests/forms">
-                                    Nested Forms
-                                </BarDropdownItem>
-                                <BarDropdownItem To="tests/validations">
-                                    Nested Validations
-                                </BarDropdownItem>
-                            </BarDropdownMenu>
-                        </BarDropdown>
-                    </BarDropdownMenu>
-                </BarDropdown>
-            </BarItem>
-            <BarItem>
-                <BarDropdown>
-                    <BarDropdownToggle>
-                        <BarIcon IconName="IconName.PuzzlePiece" />
-                        Extensions
-                    </BarDropdownToggle>
-                    <BarDropdownMenu>
-                        <BarDropdownItem To="tests/datagrid">
-                            Data Grid
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/components">
-                            Components
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/charts">
-                            Charts
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/livecharts">
-                            Live Charts
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/treeview">
-                            TreeView
-                        </BarDropdownItem>
-                        <BarDropdownItem To="tests/richtextedit">
-                            RichTextEdit
-                        </BarDropdownItem>
                     </BarDropdownMenu>
                 </BarDropdown>
             </BarItem>
         </BarStart>
+        <BarEnd>
+            <BarLabel>
+                @Version
+            </BarLabel>
+        </BarEnd>
     </BarMenu>
 </Bar>
 
 @code{
     private bool topbarVisible = false;
+    private string Version = "";
     RenderFragment customIcon =@<img src="/img/logo_transparent_low.png" style="width:50px;" />;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        var attr = typeof(App).Assembly.GetCustomAttributes(true).Where(x => x.GetType() == typeof(System.Reflection.AssemblyInformationalVersionAttribute)).FirstOrDefault();
+        if (attr != null)
+        {
+            Version = ((System.Reflection.AssemblyInformationalVersionAttribute)attr).InformationalVersion;
+        }
+    }
 
     private void VisibleChanged(bool visible)
     {
