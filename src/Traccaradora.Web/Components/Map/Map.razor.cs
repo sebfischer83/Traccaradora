@@ -45,10 +45,12 @@ namespace Traccaradora.Web.Components.Map
         private async Task AddDevicesAsync()
         {
             var module = await Module;
+            await module.InvokeVoidAsync("clear");
             foreach (var device in State.Value.Devices)
             {
                 await module.InvokeVoidAsync("addMarker", device.Latitude, device.Longitude, device.Name);
             }
+            await module.InvokeVoidAsync("setView");
         }
 
         public async ValueTask DisposeAsync()
