@@ -1,1 +1,6 @@
-﻿
+﻿@media only screen and (max-width: 600px) {
+    .b-bar-vertical-inline {
+        min-width: 0;
+        width: 0;
+    }
+}

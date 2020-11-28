@@ -10,24 +10,28 @@ using Traccaradora.Web.Data;
 using Traccaradora.Web.Store.Auth;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Components.Authorization;
+using Traccaradora.Web.Auth;
 
 namespace Traccaradora.Web.Services
 {
     public class LoginService
     {
         private HttpClient HttpClient;
-        public LoginService(IServiceProvider serviceProvider, IDispatcher dispatcher, IState<AuthState> state, ILocalStorageService localStorageService)
+        public LoginService(IServiceProvider serviceProvider, IDispatcher dispatcher, IState<AuthState> state, 
+            ILocalStorageService localStorageService, AuthenticationStateProvider authenticationStateProvider)
         {
             ServiceProvider = serviceProvider;
             Dispatcher = dispatcher;
             State = state;
             LocalStorageService = localStorageService;
+            AuthenticationStateProvider = authenticationStateProvider;
             HttpClient = (HttpClient)ServiceProvider.GetService<HttpClient>();
         }
 
         public Task LogoutAsync()
         {
-            Dispatcher.Dispatch(new LogoutAction());
+            ((AuthProvider)AuthenticationStateProvider).MarkUserAsLoggedOut();
             return Task.CompletedTask;
         }
 
@@ -37,7 +41,8 @@ namespace Traccaradora.Web.Services
             {
                 if (await TraccarExtensions.CheckConnectionAsync(HttpClient, userData.UserName, userData.Password, userData.ServerUrl))
                 {
-                    Dispatcher.Dispatch(new LoginAction() { UserName = userData.UserName, Password = userData.Password, ServerUrl = userData.ServerUrl });
+                    await LocalStorageService.SetItemAsync("UserData", userData);
+                    ((AuthProvider)AuthenticationStateProvider).MarkUserAsLoggedIn(userData);
                     return true;
                 }
             }
@@ -55,5 +60,6 @@ namespace Traccaradora.Web.Services
         public IDispatcher Dispatcher { get; }
         public IState<AuthState> State { get; }
         public ILocalStorageService LocalStorageService { get; }
+        public AuthenticationStateProvider AuthenticationStateProvider { get; }
     }
 }

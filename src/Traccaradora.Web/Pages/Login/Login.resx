@@ -129,7 +129,31 @@
   <data name="EnterEmail" xml:space="preserve">
     <value>E-Mail-Adresse</value>
   </data>
+  <data name="ErrorConnect" xml:space="preserve">
+    <value>Fehler beim Verbindungstest</value>
+  </data>
+  <data name="ErrorConnectDescription" xml:space="preserve">
+    <value>Server oder Zugangsdaten sind ungültig</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="PasswordInvalid" xml:space="preserve">
+    <value>Passwort ist ungültig</value>
+  </data>
+  <data name="PasswordValid" xml:space="preserve">
+    <value>Passwort ist gültig</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="ServerInvalid" xml:space="preserve">
+    <value>Server ist keine gültige Url</value>
+  </data>
+  <data name="ServerValid" xml:space="preserve">
+    <value>Server ist gültige Url</value>
   </data>
 </root>

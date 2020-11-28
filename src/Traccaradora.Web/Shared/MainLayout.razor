@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using Microsoft.AspNetCore.Authorization
+@inherits LayoutComponentBase
+@attribute [Authorize]
 <Layout Sider="true">
     <LayoutSider>
         <LayoutSiderContent>
@@ -13,4 +15,4 @@
             @Body
         </LayoutContent>
     </Layout>
-</Layout>
+</Layout> 

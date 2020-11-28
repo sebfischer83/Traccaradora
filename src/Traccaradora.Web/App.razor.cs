@@ -28,31 +28,22 @@ namespace Traccaradora.Web
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            if (!(await LocalStorageService.ContainKeyAsync("UserData")))
-            {
-                NavigationManager.NavigateTo("/Login");
-            }
-            else
-            {
-                var data = await LocalStorageService.GetItemAsync<UserData>("UserData");
-                Dispatcher.Dispatch(new LoginAction() { UserName = data.UserName, Password = data.Password, ServerUrl = data.ServerUrl });
-                NavigationManager.NavigateTo("/Dashboard");
-            }
-            NavigationManager.LocationChanged += NavigationManager_LocationChanged;
+            //if (!(await LocalStorageService.ContainKeyAsync("UserData")))
+            //{
+            //    NavigationManager.NavigateTo("/Login");
+            //}
+            //else
+            //{
+            //    var data = await LocalStorageService.GetItemAsync<UserData>("UserData");
+            //    Dispatcher.Dispatch(new LoginAction() { UserName = data.UserName, Password = data.Password, ServerUrl = data.ServerUrl });
+            //    NavigationManager.NavigateTo("/Dashboard");
+            //}
+            //NavigationManager.LocationChanged += NavigationManager_LocationChanged;
         }
 
         private void NavigationManager_LocationChanged(object sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
         {
-            if (!e.Location.Contains("/Login"))
-            {
-                if (string.IsNullOrWhiteSpace(AuthState.Value.UserName))
-                    NavigationManager.NavigateTo("/Login");
-            }
-            else if (e.Location.Contains("/Login"))
-            {
-                if (!string.IsNullOrWhiteSpace(AuthState.Value.UserName))
-                    NavigationManager.NavigateTo("/Dashboard");
-            }
+           
         }
     }
 }

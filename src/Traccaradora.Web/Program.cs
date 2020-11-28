@@ -16,6 +16,8 @@ using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using System.Globalization;
 using Traccaradora.Web.Services;
+using Traccaradora.Web.Auth;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Traccaradora.Web
 {
@@ -41,9 +43,12 @@ namespace Traccaradora.Web
             builder.Services.AddLocalization();
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddBlazoredSessionStorage();
+
             // services app
             builder.Services.AddScoped<LoginService>();
+            builder.Services.AddScoped<AuthenticationStateProvider, AuthProvider>();
 
+            builder.Services.AddAuthorizationCore();
             var host = builder.Build();
 
             host.Services

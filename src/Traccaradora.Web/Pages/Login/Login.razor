@@ -20,22 +20,22 @@
             </Validation>
             <Validation Validator="@ValidationRule.IsNotEmpty">
                 <Field>
-                    <FieldLabel>Passwort</FieldLabel>
+                    <FieldLabel>@Loc["Password"]</FieldLabel>
                     <TextEdit Placeholder="Passwort" Role="TextRole.Password" @bind-Text="@UserData.Password">
                         <Feedback>
-                            <ValidationSuccess>Email is good</ValidationSuccess>
-                            <ValidationError>Enter valid email!</ValidationError>
+                            <ValidationSuccess>@Loc["PasswordValid"]</ValidationSuccess>
+                            <ValidationError>@Loc["PasswordInvalid"]</ValidationError>
                         </Feedback>
                     </TextEdit>
                 </Field>
             </Validation>
             <Validation Validator="@UrlValidator.IsValidUrl">
                 <Field>
-                    <FieldLabel>Server</FieldLabel>
+                    <FieldLabel>@Loc["Server"]</FieldLabel>
                     <TextEdit Placeholder="Server" Role="TextRole.Url" @bind-Text="@UserData.ServerUrl">
                         <Feedback>
-                            <ValidationSuccess>Email is good</ValidationSuccess>
-                            <ValidationError>Enter valid email!</ValidationError>
+                            <ValidationSuccess>@Loc["ServerValid"]</ValidationSuccess>
+                            <ValidationError>@Loc["ServerInvalid"]</ValidationError>
                         </Feedback>
                     </TextEdit>
                 </Field>
@@ -48,8 +48,8 @@
             <Field Horizontal="true" JustifyContent="JustifyContent.Start">
                 <FieldBody ColumnSize="ColumnSize.Is10.Is2">
                     <Alert Color="Color.Warning" @ref="alert">
-                        <AlertMessage>Well done!</AlertMessage>
-                        <AlertDescription>You successfully read this important alert message.</AlertDescription>
+                        <AlertMessage>@Loc["ErrorConnect"]</AlertMessage>
+                        <AlertDescription>@Loc["ErrorConnectDescription"]</AlertDescription>
                         <CloseButton Clicked="HideAlert" />
                     </Alert>
                 </FieldBody>

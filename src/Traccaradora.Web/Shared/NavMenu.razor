@@ -1,7 +1,7 @@
 ﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
-<Bar Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Light"
-     Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Hide" VisibleChanged="VisibleChanged" Visible="@UiState.Value.IsMainMenuVisible">
-    <BarToggler Clicked="@ToogleMainMenu" Mode="!UiState.Value.IsMainMenuVisible ? BarTogglerMode.Popout : BarTogglerMode.Normal"  />
+<Bar Breakpoint="Breakpoint.Tablet" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Light"
+     Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Hide" VisibleChanged="MenuVisibilityChanged">
+    <BarToggler Mode="BarTogglerMode.Popout"  />
     <BarBrand>
         <BarItem>
             <BarLink To="https://www.traccaradora.com" Target="Target.Blank">
@@ -40,7 +40,6 @@
 </Bar>
 
 @code{
-    @inject Fluxor.IState<Traccaradora.Web.Store.Ui.UiState> UiState;
     @inject Fluxor.IDispatcher Dispatcher;
     private string Version = "";
     RenderFragment customIcon =@<img src="/img/logo_transparent_low.png" style="width:50px;" />;
@@ -55,13 +54,8 @@
         }
     }
 
-    private void ToogleMainMenu()
+    private void MenuVisibilityChanged(bool visible)
     {
-        var visible = UiState.Value.IsMainMenuVisible;
-        Dispatcher.Dispatch(new Traccaradora.Web.Store.Ui.SetMainMenuVisibilityAction() { Visible = !visible });
-    }
-
-    private void VisibleChanged(bool visible)
-    {
+        Dispatcher.Dispatch(new Traccaradora.Web.Store.Ui.SetMainMenuVisibilityAction() { Visible = visible });
     }
 }

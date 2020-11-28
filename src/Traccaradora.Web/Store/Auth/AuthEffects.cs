@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using Fluxor;
+using Microsoft.AspNetCore.Components.Authorization;
 using Newtonsoft.Json;
 using Traccaradora.Web.Data;
 using Traccaradora.Web.Store.Data;

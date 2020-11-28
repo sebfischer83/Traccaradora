@@ -26,6 +26,12 @@ namespace Traccaradora.Web.Components.Map
         {
             await base.OnInitializedAsync();
             State.StateChanged += State_StateChanged;
+            if (State.Value.IsInitialized)
+            {
+                var module = await Module;
+                await module.InvokeVoidAsync("initMap");
+                await AddDevicesAsync();
+            }
         }
 
         private void State_StateChanged(object sender, DataState e)

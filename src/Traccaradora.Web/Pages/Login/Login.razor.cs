@@ -12,6 +12,7 @@ using Traccaradora.Web.Clients;
 using Traccaradora.Web.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Traccaradora.Web.Services;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Traccaradora.Web.Pages.Login
 {
@@ -26,6 +27,9 @@ namespace Traccaradora.Web.Pages.Login
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
         private Validations validations;
 
         private UserData UserData = new UserData();
@@ -36,6 +40,14 @@ namespace Traccaradora.Web.Pages.Login
             alert.Hide();
         }
 
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+            var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            if (auth.User.Identity.IsAuthenticated)
+                NavigationManager.NavigateTo("/Dashboard");
+        }
+
         async Task SubmitAsync()
         {
             if (validations.ValidateAll())
@@ -43,18 +55,13 @@ namespace Traccaradora.Web.Pages.Login
                 validations.ClearAll();
                 if (await LoginService.Login(UserData))
                 {
-                    NavigationManager.NavigateTo("/");
+                    NavigationManager.NavigateTo("/Dashboard");
                 }
                 else
                 {
                     alert.Show();
                 }
             }
-        }
-
-        private void CheckConnection()
-        {
-
         }
     }
 }
